@@ -67,6 +67,18 @@ const resolvers = {
         return err;
       }
     },
+
+    deleteBook: async (parent, { bookId }, { user }) => {
+      const updatedUser = await User.findOneAndUpdate(
+        { _id: user._id },
+        { $pull: { savedBooks: { bookId: bookId } } },
+        { new: true }
+      );
+      if (!updatedUser) {
+        return Error("Couldn't find user with this id!");
+      }
+      return updatedUser;
+    },
   },
 };
 
