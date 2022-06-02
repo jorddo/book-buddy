@@ -1,30 +1,52 @@
+import { GET_ME } from './queries';
+import { ADD_USER, LOGIN_USER } from './mutations';
+
+const url = process.env.REACT_APP_GRAPHQL_ENDPOINT;
+
 // route to get logged in user's info (needs the token)
 export const getMe = (token) => {
-  return fetch('/api/users/me', {
+  return fetch(url, {
+    method: 'POST',
     headers: {
       'Content-Type': 'application/json',
       authorization: `Bearer ${token}`,
     },
+    body: JSON.stringify({
+      query: GET_ME,
+    }),
   });
 };
 
-export const createUser = (userData) => {
-  return fetch('/api/users', {
+export const createUser = ({ username, email, password }) => {
+  return fetch(url, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify(userData),
+    body: JSON.stringify({
+      query: ADD_USER,
+      variables: {
+        username,
+        email,
+        password,
+      },
+    }),
   });
 };
 
-export const loginUser = (userData) => {
-  return fetch('/api/users/login', {
+export const loginUser = ({ email, password }) => {
+  return fetch(url, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify(userData),
+    body: JSON.stringify({
+      query: LOGIN_USER,
+      variables: {
+        email,
+        password,
+      },
+    }),
   });
 };
 
