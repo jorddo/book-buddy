@@ -29,10 +29,8 @@ const LoginForm = () => {
 
     try {
       const res = await handleLogin({ variables: { ...userFormData } });
-      console.log({ res });
 
       if (error) {
-        console.log({ error });
         throw new Error('something went wrong!');
       }
 
